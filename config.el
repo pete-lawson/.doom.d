@@ -32,32 +32,74 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
-;; Loads Super Agenda
-;;
+;; Load and Configure Super Agenda
 (use-package org-super-agenda
   :config (org-super-agenda-mode))
-(setq org-super-agenda-groups
-       '(
-         (:name "Complete Today"
-                 :tag "today")
-          (:name "Consulting"
-                 :tag "consult")
-          (:name "Priority"
-                 :priority "A")
-            (:auto-parent f)
-            ))
+(setq org-agenda-custom-commands
+      '(("d" "die Tagesordnung"
+         ((agenda "" ((org-agenda-span 'day)
+                      (org-super-agenda-groups
+                       '((:name "Today"
+                                :time-grid t
+                                :date today
+                                :order 1)))))
+          (alltodo "" ((org-agenda-overriding-header "")
+                       (org-super-agenda-groups
+                        '((:name "Next to do"
+                                 :todo "NEXT"
+                                 :order 1)
+                          (:name "File in LibAnswers"
+                                 :tag "file"
+                                 :order 4)
+                          (:name "Important"
+                                 :priority "A"
+                                 :order 6)
+                          (:name "Due Today"
+                                 :deadline today
+                                 :order 2)
+                          (:name "Due Soon"
+                                 :deadline future
+                                 :order 8)
+                          (:name "Overdue"
+                                 :deadline past
+                                 :order 7)
+                          (:name "Consulting"
+                                 :tag "consult"
+                                 :order 14)
+                          (:name "DataVis"
+                                 :tag "datavis"
+                                 :order 13)
+                          (:name "Libguide"
+                                 :tag "libguide"
+                                 :order 15)
+                          (:name "De-Identification"
+                                 :tag "deid"
+                                 :order 17)
+                          (:name "To read"
+                                 :tag "toread"
+                                 :order 30)
+                          (:name "Waiting"
+                                 :todo "WAITING"
+                                 :order 20)
+                          (:name "trivial"
+                                 :priority<= "C"
+                                 :tag ("Trivial" "Unimportant")
+                                 :todo ("SOMEDAY" )
+                                 :order 90)
+                          (:discard (:tag ("Chore" "Routine" "Daily")))))))))))
+;; Prettify Org Bullets
 (add-hook 'org-mode-hook
 	            (lambda ()
-		                  (org-superstar-mode 1)))
+        (org-superstar-mode 1)))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
-;; - `load!' for loading external *.el files relative to this one
+;; - `load!' for loading externl *.el files relative to this one
 ;; - `use-package!' for configuring packages
 ;; - `after!' for running code after a package has loaded
 ;; - `add-load-path!' for adding directories to the `load-path', relative to
 ;;   this file. Emacs searches the `load-path' when you load packages with
-;;   `require' or `use-package'.
+;;   `require' or `use-package'
 ;; - `map!' for binding new keys
 ;;
 ;; To get information about any of these functions/macros, move the cursor over
