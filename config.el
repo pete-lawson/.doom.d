@@ -53,7 +53,7 @@
                                  :order 4)
                           (:name "Important"
                                  :priority "A"
-                                 :order 6)
+                                 :order 3)
                           (:name "Due Today"
                                  :deadline today
                                  :order 2)
