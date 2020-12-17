@@ -4,8 +4,8 @@
 ;; sync' after modifying this file!
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
-(setq user-full-name "John Doe"
-      user-mail-address "john@doe.com")
+(setq user-full-name "Pete Lawson"
+      user-mail-address "geekypete@gmail.com")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -37,12 +37,18 @@
   :config (org-super-agenda-mode))
 (setq org-agenda-custom-commands
       '(("d" "die Tagesordnung"
-         ((agenda "" ((org-agenda-span 'day)
-                      (org-super-agenda-groups
-                       '((:name "Today"
-                                :time-grid t
-                                :date today
-                                :order 1)))))
+         (
+         ;(agenda "" ((org-agenda-span-start-day "-1d")
+                      ;(org-agenda-span 3)
+                      ;(org-agenda-start-on-weekday nil)
+                      ;(org-agenda-show-all-dates t)
+                      ;(org-agenda-use-time-grid t)
+                      ;(org-super-agenda-groups
+                       ;'((:name "Today"
+                                ;:time-grid t
+                                ;:scheduled today
+                                ;:deadline today
+                                ;:order 1)))))
           (alltodo "" ((org-agenda-overriding-header "")
                        (org-super-agenda-groups
                         '((:name "Next to do"
@@ -55,7 +61,9 @@
                                  :priority "A"
                                  :order 3)
                           (:name "Due Today"
+                                 :scheduled today
                                  :deadline today
+                                 :todo "today"
                                  :order 2)
                           (:name "Due Soon"
                                  :deadline future
@@ -63,9 +71,12 @@
                           (:name "Overdue"
                                  :deadline past
                                  :order 7)
+                          (:name "Admin"
+                                 :tag "admin"
+                                 :order 9)
                           (:name "Consulting"
                                  :tag "consult"
-                                 :order 14)
+                                 :order 10)
                           (:name "DataVis"
                                  :tag "datavis"
                                  :order 13)
@@ -75,6 +86,15 @@
                           (:name "De-Identification"
                                  :tag "deid"
                                  :order 17)
+                          (:name "Workshops"
+                                 :tag "workshop"
+                                 :order 16)
+                          (:name "Development"
+                                 :tag "dev"
+                                 :order 18)
+                          (:name "DEIA"
+                                 :tag "dei"
+                                 :order 19)
                           (:name "To read"
                                  :tag "toread"
                                  :order 30)
