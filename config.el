@@ -76,7 +76,7 @@
                                  :order 9)
                           (:name "Consulting"
                                  :tag "consult"
-                                 :order 10)
+                                 :order 40)
                           (:name "DataVis"
                                  :tag "datavis"
                                  :order 13)
