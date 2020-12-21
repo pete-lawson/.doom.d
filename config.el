@@ -35,6 +35,27 @@
 ;; Load and Configure Super Agenda
 (use-package org-super-agenda
   :config (org-super-agenda-mode))
+(setq org-capture-templates
+        '(("t" "Todo" entry (file "~/jhu-org/inbox.org")
+        "* TODO %?\n  %U\n  %i\n  %a")
+        ("T" "Todo with Clipboard" entry (file "~/jhu-org/inbox.org")
+        "* TODO %?\n  %U\n  %x")
+        ("a"               ; key
+        "Article"         ; name
+        entry             ; type
+        (file+headline "~/jhu-org/notes.org" "Article")  ; target
+        "* %^{Title} %(org-set-tags) :article: \n:PROPERTIES:\n:Created: %U\n:Linked: %a\n:END:\n%i\nBrief description:\n%?"  ; template
+        :prepend t        ; properties
+        :empty-lines 1    ; properties
+        :created t        ; properties
+        )
+        ("m" "Meeting" entry (file "~/jhu-org/meetings.org")
+        "* MEETING: with %?\n" :clock-in t :clock-resume t :empty-lines 1)
+        ("n" "Note" entry (file "~/Documents/research/org/research.org")
+        "* NOTE %?\n%U" :empty-lines 1)
+        ("N" "Note with Clipboard" entry (file "~/jhu-org/todo.org")
+        "* NOTE %?\n%U\n   %x" :empty-lines 1)
+        ))
 (setq org-agenda-custom-commands
       '(("d" "die Tagesordnung"
          (
@@ -95,6 +116,12 @@
                           (:name "DEIA"
                                  :tag "dei"
                                  :order 19)
+                          (:name "ICPSR"
+                                 :tag "icpsr"
+                                 :order 23)
+                          (:name "Social Science Data Group"
+                                 :tag "socsci"
+                                 :order 23)
                           (:name "To read"
                                  :tag "toread"
                                  :order 30)
