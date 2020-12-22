@@ -119,6 +119,15 @@
                           (:name "ICPSR"
                                  :tag "icpsr"
                                  :order 23)
+                          (:name "Outreach"
+                                 :tag "outreach"
+                                 :order 5)
+                          (:name "Coding Working Group"
+                                 :tag "code"
+                                 :order 24)
+                          (:name "Data Access and Discovery"
+                                 :tag "access"
+                                 :order 6)
                           (:name "Social Science Data Group"
                                  :tag "socsci"
                                  :order 23)
@@ -139,6 +148,14 @@
 	            (lambda ()
         (org-superstar-mode 1)))
 
+;; Add Org-Pomodoro Keybindings
+ (map!
+ (:after org
+   (:map org-mode-map "C-c o" #'org-pomodoro))
+ (:after org-agenda
+   (:map org-agenda-mode-map "C-c o" #'org-pomodoro))
+
+ )
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading externl *.el files relative to this one
