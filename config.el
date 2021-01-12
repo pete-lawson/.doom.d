@@ -37,7 +37,7 @@
   :config (org-super-agenda-mode))
 (setq org-capture-templates
         '(("t" "Todo" entry (file "~/jhu-org/inbox.org")
-        "* TODO %?\n  %U\n  %i\n  %a")
+        "* TODO %?\n  %U\n  %a")
         ("T" "Todo with Clipboard" entry (file "~/jhu-org/inbox.org")
         "* TODO %?\n  %U\n  %x")
         ("a"               ; key
