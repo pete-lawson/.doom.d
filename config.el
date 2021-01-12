@@ -37,7 +37,7 @@
   :config (org-super-agenda-mode))
 (setq org-capture-templates
         '(("t" "Todo" entry (file "~/jhu-org/inbox.org")
-        "* TODO %?\n  %U\n  %a")
+        "* TODO %?\n  %U\n")
         ("T" "Todo with Clipboard" entry (file "~/jhu-org/inbox.org")
         "* TODO %?\n  %U\n  %x")
         ("a"               ; key
@@ -86,6 +86,9 @@
                                  :deadline today
                                  :todo "today"
                                  :order 2)
+                          (:name "The Forgotten Realm"
+                                 :todo "forgot"
+                                 :order 6)
                           (:name "Due Soon"
                                  :deadline future
                                  :order 8)
