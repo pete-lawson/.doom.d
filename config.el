@@ -73,7 +73,7 @@
           (alltodo "" ((org-agenda-overriding-header "")
                        (org-super-agenda-groups
                         '((:name "Next to do"
-                                 :todo "next"
+                                 :tag "next"
                                  :order 1)
                           (:name "File in LibAnswers"
                                  :tag "file"
