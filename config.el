@@ -33,8 +33,35 @@
 (setq display-line-numbers-type t)
 
 ;; Load and Configure Super Agenda
+(after! org
 (use-package org-super-agenda
   :config (org-super-agenda-mode))
+(setq org-log-done 'note)
+;; Set Org Keywords
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "START(s)" "WAIT(w)" "BLOCK(b)" "|" "DONE(d)")
+        (sequence "RESOURCE(r)" "|")
+        (sequence "|" "CANCELED(c)")))
+;; Set tags
+(setq org-tag-alist
+      '(
+        ("next" . ?n)
+        ("forgot" . ?f)
+        ("admin" . ?a)
+        ("meeting" . ?m)
+        ("datavis" . ?v)
+        ("access" . ?c)
+        ("consult" . ?t)
+        ("dev" . ?d)
+        ("icpsr" . ?i)
+        ("deid" . ?e)
+        ("deia" . ?z)
+        ("socsci" . ?s)
+        ("outreach" . ?o)
+        ("workshop" . ?w)
+        ("toread" . ?r)
+        ("code" . ?v)
+        ))
 (setq org-capture-templates
         '(("t" "Todo" entry (file "~/jhu-org/inbox.org")
         "* TODO %?\n  %U\n")
@@ -57,7 +84,19 @@
         "* NOTE %?\n%U\n   %x" :empty-lines 1)
         ))
 (setq org-agenda-custom-commands
-      '(("d" "die Tagesordnung"
+      '(
+        ("w" "Weekly review"
+                        agenda ""
+                        ((org-agenda-start-day "-10d")
+                        (org-agenda-span 14)
+                        (org-agenda-start-on-weekday 1)
+                        (org-agenda-start-with-log-mode '(closed))
+                        (org-agenda-archives-mode t)
+                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp "^\\*\\* DONE "))))
+                ("n" "Agenda and all TODOs"
+                        agenda ""
+                        ((alltodo "")))
+        ("d" "die Tagesordnung"
          (
          ;(agenda "" ((org-agenda-span-start-day "-1d")
                       ;(org-agenda-span 3)
@@ -72,80 +111,81 @@
                                 ;:order 1)))))
           (alltodo "" ((org-agenda-overriding-header "")
                        (org-super-agenda-groups
-                        '((:name "Next to do"
-                                 :todo "NEXT"
+                        '((:name "Daily Queue"
+                                 :tag "next"
                                  :order 1)
-                          (:name "File in LibAnswers"
-                                 :tag "file"
-                                 :order 4)
-                          (:name "Important"
-                                 :priority "A"
-                                 :order 3)
                           (:name "Due Today"
                                  :scheduled today
                                  :deadline today
                                  :todo "today"
-                                 :order 2)
-                          (:name "The Forgotten Realm"
-                                 :todo "forgot"
-                                 :order 6)
+                                 :order 5)
                           (:name "Due Soon"
                                  :deadline future
-                                 :order 8)
+                                 :order 6)
                           (:name "Overdue"
                                  :deadline past
                                  :order 7)
+                          (:name "Important"
+                                 :priority "A"
+                                 :order 8)
                           (:name "Admin"
                                  :tag "admin"
-                                 :order 9)
-                          (:name "Consulting"
-                                 :tag "consult"
-                                 :order 40)
-                          (:name "DataVis"
-                                 :tag "datavis"
-                                 :order 13)
-                          (:name "Libguide"
-                                 :tag "libguide"
+                                 :order 10)
+                          (:name "File in LibAnswers"
+                                 :tag "file"
                                  :order 15)
-                          (:name "De-Identification"
-                                 :tag "deid"
-                                 :order 17)
-                          (:name "Workshops"
-                                 :tag "workshop"
-                                 :order 16)
-                          (:name "Development"
-                                 :tag "dev"
-                                 :order 18)
-                          (:name "DEIA"
-                                 :tag "dei"
-                                 :order 19)
-                          (:name "ICPSR"
-                                 :tag "icpsr"
-                                 :order 23)
                           (:name "Outreach"
                                  :tag "outreach"
-                                 :order 5)
-                          (:name "Coding Working Group"
-                                 :tag "code"
-                                 :order 24)
+                                 :order 20)
+                          (:name "The Forgotten Realm"
+                                 :tag "forgot"
+                                 :order 25)
                           (:name "Data Access and Discovery"
                                  :tag "access"
-                                 :order 6)
-                          (:name "Social Science Data Group"
-                                 :tag "socsci"
-                                 :order 23)
-                          (:name "To read"
-                                 :tag "toread"
                                  :order 30)
+                          (:name "DataVis"
+                                 :tag "datavis"
+                                 :order 50)
+                          (:name "Libguide"
+                                 :tag "libguide"
+                                 :order 55)
+                          (:name "Workshops"
+                                 :tag "workshop"
+                                 :order 60)
+                          (:name "De-Identification"
+                                 :tag "deid"
+                                 :order 65)
+                          (:name "Development"
+                                 :tag "dev"
+                                 :order 70)
+                          (:name "DEIA"
+                                 :tag "deia"
+                                 :order 75)
                           (:name "Waiting"
                                  :todo "WAITING"
-                                 :order 20)
+                                 :order 80)
+                          (:name "ICPSR"
+                                 :tag "icpsr"
+                                 :order 85)
+                          (:name "Social Science Data Group"
+                                 :tag "socsci"
+                                 :order 90)
+                          (:name "Coding Working Group"
+                                 :tag "code"
+                                 :order 95)
+                          (:name "To read"
+                                 :tag "toread"
+                                 :order 100)
+                          (:name "Consulting"
+                                 :tag "consult"
+                                 :order 105)
                           (:name "trivial"
                                  :priority<= "C"
                                  :tag ("Trivial" "Unimportant")
                                  :todo ("SOMEDAY" )
-                                 :order 90)
+                                 :order 110)
                           (:discard (:tag ("Chore" "Routine" "Daily")))))))))))
+)
 ;; Prettify Org Bullets
 (add-hook 'org-mode-hook
 	            (lambda ()
