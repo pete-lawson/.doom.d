@@ -67,6 +67,8 @@
         "* TODO %?\n  %U\n")
         ("T" "Todo with Clipboard" entry (file "~/jhu-org/inbox.org")
         "* TODO %?\n  %U\n  %x")
+        ("r" "Resource with Clipboard" entry (file "~/jhu-org/inbox.org")
+        "* RESOURCE %?\n  %U\n  %x")
         ("a"               ; key
         "Article"         ; name
         entry             ; type
@@ -111,7 +113,9 @@
                                 ;:order 1)))))
           (alltodo "" ((org-agenda-overriding-header "")
                        (org-super-agenda-groups
-                        '((:name "Daily Queue"
+                        '(
+                          (:discard (:todo "RESOURCE"))
+                          (:name "Daily Queue"
                                  :tag "next"
                                  :order 1)
                           (:name "Due Today"
