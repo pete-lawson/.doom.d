@@ -203,6 +203,32 @@
    (:map org-agenda-mode-map "C-c o" #'org-pomodoro))
 
  )
+
+ ;; Determine the specific system type. 
+ ;; Emacs variable system-type doesn't yet have a "wsl/linux" value,
+ ;; so I'm front-ending system-type with my variable: sysTypeSpecific.
+ ;; I'm no elisp hacker, so I'm diverging from the elisp naming convention
+ ;; to ensure that I'm not stepping on any pre-existing variable.
+ (setq-default sysTypeSpecific  system-type) ;; get the system-type value
+ 
+ (cond 
+     ;; If type is "gnu/linux", override to "wsl/linux" if it's WSL.
+       ((eq sysTypeSpecific 'gnu/linux)  
+	   (when (string-match "Linux.*Microsoft.*Linux" 
+			                              (shell-command-to-string "uname -a"))
+	      
+	          (setq-default sysTypeSpecific "wsl/linux") ;; for later use.
+		       (setq
+			       cmdExeBin"/mnt/c/Windows/System32/cmd.exe"
+			             cmdExeArgs '("/c" "start" "") )
+		            (setq
+			            browse-url-generic-program  cmdExeBin
+				          browse-url-generic-args     cmdExeArgs
+					        browse-url-browser-function 'browse-url-generic)
+			         )))
+
+
+
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading externl *.el files relative to this one
