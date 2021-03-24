@@ -69,6 +69,8 @@
         "* TODO %?\n  %U\n  %x")
         ("r" "Resource with Clipboard" entry (file "~/jhu-org/inbox.org")
         "* RESOURCE %?\n  %U\n  %x")
+        ("c" "Consultation" entry (file "~/jhu-org/consult.org")
+         "* TODO %^{Patron Name} %t %^g\n** Inquiry\n%x\n** Response\n%?")
         ("a"               ; key
         "Article"         ; name
         entry             ; type
