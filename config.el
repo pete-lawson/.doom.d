@@ -46,6 +46,7 @@
 (setq org-tag-alist
       '(
         ("next" . ?n)
+        ("queue" . ?p)
         ("forgot" . ?f)
         ("admin" . ?a)
         ("meeting" . ?m)
@@ -60,7 +61,7 @@
         ("outreach" . ?o)
         ("workshop" . ?w)
         ("toread" . ?r)
-        ("code" . ?v)
+        ("code" . ?x)
         ))
 (setq org-capture-templates
         '(("t" "Todo" entry (file "~/jhu-org/inbox.org")
@@ -120,6 +121,9 @@
                           (:name "Daily Queue"
                                  :tag "next"
                                  :order 1)
+                          (:name "Upcoming Queue"
+                                 :tag "queue"
+                                 :order 2)
                           (:name "Due Today"
                                  :scheduled today
                                  :deadline today
