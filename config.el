@@ -90,6 +90,10 @@
         ))
 (setq org-agenda-custom-commands
       '(
+        ("e" "Exclusively TODOs"
+         ((todo "TODO"
+                ((org-agenda-overriding-header "TODO"))))
+         )
         ("w" "Weekly review"
                         agenda ""
                         ((org-agenda-start-day "-10d")
