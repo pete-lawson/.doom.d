@@ -94,30 +94,16 @@
          ((todo "TODO"
                 ((org-agenda-overriding-header "TODO"))))
          )
-        ("w" "Weekly review"
-                        agenda ""
-                        ((org-agenda-start-day "-10d")
-                        (org-agenda-span 14)
-                        (org-agenda-start-on-weekday 1)
-                        (org-agenda-start-with-log-mode '(closed))
-                        (org-agenda-archives-mode t)
-                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp "^\\*\\* DONE "))))
-                ("n" "Agenda and all TODOs"
-                        agenda ""
-                        ((alltodo "")))
+        ("r" "Monthly review"
+         (
+          (tags "next" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("DONE")))))
+          (agenda "" ((org-agenda-span 'month)
+                      (org-agenda-entry-types '(:deadline :scheduled))
+          ))
+         ))
+;
         ("d" "die Tagesordnung"
          (
-         ;(agenda "" ((org-agenda-span-start-day "-1d")
-                      ;(org-agenda-span 3)
-                      ;(org-agenda-start-on-weekday nil)
-                      ;(org-agenda-show-all-dates t)
-                      ;(org-agenda-use-time-grid t)
-                      ;(org-super-agenda-groups
-                       ;'((:name "Today"
-                                ;:time-grid t
-                                ;:scheduled today
-                                ;:deadline today
-                                ;:order 1)))))
           (alltodo "" ((org-agenda-overriding-header "")
                        (org-super-agenda-groups
                         '(
