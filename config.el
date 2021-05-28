@@ -101,7 +101,12 @@
                       (org-agenda-entry-types '(:deadline :scheduled))
           ))
          ))
-;
+        ("w" "Weekly review"
+                agenda ""
+                ((org-agenda-start-day "-14d")
+                (org-agenda-span 15)
+                (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp "^\\* DONE"))
+                ))
         ("d" "die Tagesordnung"
          (
           (alltodo "" ((org-agenda-overriding-header "")
