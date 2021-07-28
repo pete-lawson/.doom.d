@@ -39,7 +39,7 @@
 (setq org-log-done 'note)
 ;; Set Org Keywords
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "START(s)" "WAIT(w)" "BLOCK(b)" "|" "DONE(d)")
+      '((sequence "TODO(t)" "ACTIVE(a)" "WAIT(w)" "BLOCK(b)" "|" "DONE(d)")
         (sequence "RESOURCE(r)" "|")
         (sequence "|" "CANCELED(c)")))
 ;; Set tags
@@ -82,7 +82,7 @@
         :created t        ; properties
         )
         ("p" "Project" entry (file "~/jhu-org/projects.org")
-        "* %^{Project Name} %^g \n:PROPERTIES:\n::Description: %^{Brief Description}\n:Created: %U\n:END:\n%?")
+        "* %^{Project Name} %^g \n:PROPERTIES:\n:Description: %^{Brief Description}\n:Created: %U\n:ARCHIVE: %s_archive::* %\2\n:END:\n%?")
         ("m" "Meeting" entry (file "~/jhu-org/meetings.org")
         "* MEETING: with %?\n" :clock-in t :clock-resume t :empty-lines 1)
         ("n" "Note" entry (file "~/Documents/jhu-org/inbox.org")
