@@ -65,9 +65,9 @@
         ))
 (setq org-capture-templates
         '(("t" "Todo" entry (file "~/jhu-org/inbox.org")
-        "* TODO %?\n  %U\n")
+        "* TODO %? %^g\n  %U\n")
         ("T" "Todo with Clipboard" entry (file "~/jhu-org/inbox.org")
-        "* TODO %?\n  %U\n  %x")
+        "* TODO %? %^g\n  %U\n  %x")
         ("r" "Resource with Clipboard" entry (file "~/jhu-org/inbox.org")
         "* RESOURCE %?\n  %U\n  %x")
         ("c" "Consultation" entry (file "~/jhu-org/consult.org")
@@ -75,15 +75,17 @@
         ("a"               ; key
         "Article"         ; name
         entry             ; type
-        (file+headline "~/jhu-org/notes.org" "Article")  ; target
+        (file "~/jhu-org/notes.org" "Article")  ; target
         "* %^{Title} %(org-set-tags) :article: \n:PROPERTIES:\n:Created: %U\n:Linked: %a\n:END:\n%i\nBrief description:\n%?"  ; template
         :prepend t        ; properties
         :empty-lines 1    ; properties
         :created t        ; properties
         )
+        ("p" "Project" entry (file "~/jhu-org/projects.org")
+        "* %^{Project Name} %^g \n:PROPERTIES:\n::Description: %^{Brief Description}\n:Created: %U\n:END:\n%?")
         ("m" "Meeting" entry (file "~/jhu-org/meetings.org")
         "* MEETING: with %?\n" :clock-in t :clock-resume t :empty-lines 1)
-        ("n" "Note" entry (file "~/Documents/research/org/research.org")
+        ("n" "Note" entry (file "~/Documents/jhu-org/inbox.org")
         "* NOTE %?\n%U" :empty-lines 1)
         ("N" "Note with Clipboard" entry (file "~/jhu-org/todo.org")
         "* NOTE %?\n%U\n   %x" :empty-lines 1)
@@ -97,6 +99,7 @@
         ("r" "Monthly review"
          (
           (tags "next" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("DONE")))))
+          (tags "consult" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'nottodo '("TODO" "WAIT")))))
           (agenda "" ((org-agenda-span 'month)
                       (org-agenda-entry-types '(:deadline :scheduled))
           ))
