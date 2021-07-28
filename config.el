@@ -208,6 +208,11 @@
 
  )
 
+;; Add Treemacs binding to toggle Treemacs
+(map! :leader
+      :desc "Treemacs"
+      "t t" #'treemacs)
+
  ;; Determine the specific system type. 
  ;; Emacs variable system-type doesn't yet have a "wsl/linux" value,
  ;; so I'm front-ending system-type with my variable: sysTypeSpecific.
