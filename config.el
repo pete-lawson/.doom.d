@@ -82,7 +82,7 @@
         :created t        ; properties
         )
         ("p" "Project" entry (file "~/jhu-org/projects.org")
-        "* %^{Project Name} %^g \n:PROPERTIES:\n:Description: %^{Brief Description}\n:Created: %U\n:ARCHIVE: %s_archive::* %\\2\n:END:\n%?")
+        "* %^{Project Name} %^g \n:PROPERTIES:\n:Description: %^{Brief Description}\n:Created: %U\n:ARCHIVE: %s_archive::* %\\1\n:END:\n%?")
         ("m" "Meeting" entry (file "~/jhu-org/meetings.org")
         "* MEETING: with %?\n" :clock-in t :clock-resume t :empty-lines 1)
         ("n" "Note" entry (file "~/Documents/jhu-org/inbox.org")
