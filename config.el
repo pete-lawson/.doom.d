@@ -199,19 +199,43 @@
 	            (lambda ()
         (org-superstar-mode 1)))
 
-;; Add Org-Pomodoro Keybindings
+;; add org-pomodoro keybindings
  (map!
  (:after org
    (:map org-mode-map "C-c o" #'org-pomodoro))
  (:after org-agenda
-   (:map org-agenda-mode-map "C-c o" #'org-pomodoro))
+   (:map org-agenda-mode-map "C-c o" #'org-pomodoro)))
 
- )
+
 
 ;; Add Treemacs binding to toggle Treemacs
 (map! :leader
       :desc "Treemacs"
       "t t" #'treemacs)
+
+;; Demote org heading
+(map! :leader
+      (:prefix ("v" . "org-mode")
+      :desc "Demote Org Subtree"
+      "d" #'org-demote-subtree))
+
+;; Promote org heading
+(map! :leader
+      (:prefix ("v" . "org-mode")
+      :desc "Promote Org Subtree"
+      "p" #'org-promote-subtree))
+
+;; Promote org heading
+(map! :leader
+      (:prefix ("v" . "org-mode")
+      :desc "Promote Org Heading"
+      "k" #'org-do-promote))
+
+;; Promote org heading
+(map! :leader
+      (:prefix ("v" . "org-mode")
+      :desc "Demote Org Heading"
+      "j" #'org-do-demote))
 
  ;; Determine the specific system type. 
  ;; Emacs variable system-type doesn't yet have a "wsl/linux" value,
