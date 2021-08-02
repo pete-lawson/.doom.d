@@ -41,6 +41,7 @@
 (setq org-todo-keywords
       '((sequence "TODO(t)" "ACTIVE(a)" "WAIT(w)" "BLOCK(b)" "|" "DONE(d)")
         (sequence "RESOURCE(r)" "|")
+        (sequence "ACTIVE(a)" "|" "INACTIVE(i)")
         (sequence "|" "CANCELED(c)")))
 ;; Set tags
 (setq org-tag-alist
@@ -98,7 +99,7 @@
          )
         ("r" "Monthly review"
          (
-          (tags "next" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("DONE")))))
+          (tags "next" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("DONE" "INACTIVE" "ACTIVE" "CANCELED")))))
           (tags "consult" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'nottodo '("TODO" "WAIT")))))
           (agenda "" ((org-agenda-span 'month)
                       (org-agenda-entry-types '(:deadline :scheduled))
