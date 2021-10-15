@@ -36,13 +36,19 @@
 (after! org
 (use-package org-super-agenda
   :config (org-super-agenda-mode))
+
+;; Record a CLOSED tag and date/time when moving to completed state (done or cancelled)
+(setq org-log-done t)
+;; Log closed TODOs with a note and timestamp
 (setq org-log-done 'note)
+;; Log todo state changes in drawer of todo
+(setq org-log-into-drawer t)
 ;; Set Org Keywords
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "ACTIVE(a)" "WAIT(w)" "BLOCK(b)" "|" "DONE(d)")
+      '((sequence "TODO(t)" "WAIT(w@/!)" "BLOCK(b@/!)" "|" "DONE(d@!)" "CANCELED(c@)")
         (sequence "RESOURCE(r)" "|")
         (sequence "ACTIVE(a)" "|" "INACTIVE(i)")
-        (sequence "|" "CANCELED(c)")))
+        ))
 ;; Set tags
 (setq org-tag-alist
       '(
@@ -71,7 +77,7 @@
         "* TODO %? %^g\n  %U\n  %x")
         ("r" "Resource with Clipboard" entry (file "~/jhu-org/inbox.org")
         "* RESOURCE %?\n  %U\n  %x")
-        ("c" "Consultation" entry (file "~/jhu-org/consult.org")
+        ("c" "Consultation" entry (file "~/jhu-org/consults.org")
          "* TODO %^{Patron Name} %t %^g\n** Inquiry\n%x\n** Response\n%?")
         ("a"               ; key
         "Article"         ; name
@@ -85,7 +91,7 @@
         ("p" "Project" entry (file "~/jhu-org/projects.org")
         "* TODO %^{Project Name} [/] %^g \n:PROPERTIES:\n:Description: %^{Brief Description}\n:Created: %U\n:ARCHIVE: %s_archive::* %\\1\n:COOKIE_DATA: todo recursive\n:END:\n%?")
         ("m" "Meeting" entry (file "~/jhu-org/meetings.org")
-        "* MEETING: with %?\n" :clock-in t :clock-resume t :empty-lines 1)
+        "* %^{Meeting Title} %T\n:PROPERTIES:\n:Description: %^{Brief Description of Meeting}\n:Attendees: %^{List Meeting Attendees}\n** Meeting Notes\n%?")
         ("n" "Note" entry (file "~/Documents/jhu-org/inbox.org")
         "* NOTE %?\n%U" :empty-lines 1)
         ("N" "Note with Clipboard" entry (file "~/jhu-org/todo.org")
@@ -95,48 +101,57 @@
       '(
         ("e" "Exclusively TODOs"
          ((todo "TODO"
-                ((org-agenda-overriding-header "TODO"))))
+                ((org-agenda-overriding-header "TODO")
+                 (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("DONE" "INACTIVE" "ACTIVE" "CANCELED" "RESOURCE")))
+                 )))
          )
         ("r" "Monthly review"
          (
-          (tags "next" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("DONE" "INACTIVE" "ACTIVE" "CANCELED")))))
           (tags "consult" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'nottodo '("TODO" "WAIT")))))
+          (tags "next" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("DONE" "INACTIVE" "ACTIVE" "CANCELED")))
+                        (org-tags-match-list-sublevels 'nil)))
           (agenda "" ((org-agenda-span 'month)
+                      (org-agenda-todo-list-sublevels 'indented)
                       (org-agenda-entry-types '(:deadline :scheduled))
           ))
          ))
         ("w" "Weekly review"
                 agenda ""
-                ((org-agenda-start-day "-14d")
-                (org-agenda-span 15)
-                (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp "^\\* DONE"))
+                ((org-agenda-start-day "-7d")
+                (org-agenda-span 8)
+                (org-agenda-start-on-weekday 3)
+                (org-agenda-start-with-log-mode '(closed))
+                (org-agenda-archives-mode t)
+                (org-agenda-skip-function '(org-agenda-skip-entry-if 'nottodo '("DONE" "INACTIVE")))
                 ))
-        ("d" "die Tagesordnung"
+        ("d" "My Agenda"
          (
+          (agenda "" ((org-agenda-span 10)
+                      (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("DONE" "INACTIVE" "ACTIVE" "CANCELED" "RESOURCE")))
+                     ; (org-agenda-entry-types '(:date :deadline :scheduled))
+                      ))
           (alltodo "" ((org-agenda-overriding-header "")
+                      (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("DONE" "INACTIVE" "ACTIVE" "CANCELED" "RESOURCE")))
                        (org-super-agenda-groups
                         '(
                           (:discard (:todo "RESOURCE"))
-                          (:name "Daily Queue"
+                          (:name "Today's TODOs"
                                  :tag "next"
                                  :order 1)
-                          (:name "Upcoming Queue"
-                                 :tag "queue"
+                          (:name "Consulting"
+                                 :tag "consult"
                                  :order 2)
                           (:name "Due Today"
                                  :scheduled today
                                  :deadline today
                                  :todo "today"
-                                 :order 5)
-                          (:name "Due Soon"
-                                 :deadline future
-                                 :order 6)
+                                 :order 3)
                           (:name "Overdue"
                                  :deadline past
                                  :order 7)
                           (:name "Important"
                                  :priority "A"
-                                 :order 8)
+                                 :order 4)
                           (:name "Admin"
                                  :tag "admin"
                                  :order 10)
@@ -185,9 +200,6 @@
                           (:name "To read"
                                  :tag "toread"
                                  :order 100)
-                          (:name "Consulting"
-                                 :tag "consult"
-                                 :order 105)
                           (:name "trivial"
                                  :priority<= "C"
                                  :tag ("Trivial" "Unimportant")
@@ -213,6 +225,11 @@
 (map! :leader
       :desc "Treemacs"
       "t t" #'treemacs)
+
+;; Add org sort binding to toggle org
+(map! :leader
+      :desc "Sort Org Entries"
+      "m j" #'org-sort-entries)
 
 ;; Demote org heading
 (map! :leader
