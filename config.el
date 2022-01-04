@@ -78,7 +78,7 @@
         ("r" "Resource with Clipboard" entry (file "~/jhu-org/inbox.org")
         "* RESOURCE %?\n  %U\n  %x")
         ("c" "Consultation" entry (file "~/jhu-org/consults.org")
-         "* TODO %^{Patron Name} %t %^g\n** Inquiry\n%x\n** Response\n%?")
+         "* ACTIVE %^{Patron Name}: %^{Short Description of Consult} %t %^g\n** Background\n%x\n** Interactions\n%?\n** TODOs")
         ("a"               ; key
         "Article"         ; name
         entry             ; type
@@ -91,7 +91,7 @@
         ("p" "Project" entry (file "~/jhu-org/projects.org")
         "* TODO %^{Project Name} [/] %^g \n:PROPERTIES:\n:Description: %^{Brief Description}\n:Created: %U\n:ARCHIVE: %s_archive::* %\\1\n:COOKIE_DATA: todo recursive\n:END:\n%?")
         ("m" "Meeting" entry (file "~/jhu-org/meetings.org")
-        "* %^{Meeting Title} %T\n:PROPERTIES:\n:Description: %^{Brief Description of Meeting}\n:Attendees: %^{List Meeting Attendees}\n** Meeting Notes\n%?")
+        "* %^{Meeting Title} %^T\n:PROPERTIES:\n:Description: %^{Brief Description of Meeting}\n:Attendees: %^{List Meeting Attendees}\n** Meeting Notes\n%?")
         ("n" "Note" entry (file "~/Documents/jhu-org/inbox.org")
         "* NOTE %?\n%U" :empty-lines 1)
         ("N" "Note with Clipboard" entry (file "~/jhu-org/todo.org")
@@ -207,17 +207,22 @@
                                  :order 110)
                           (:discard (:tag ("Chore" "Routine" "Daily")))))))))))
 )
+
+;; Add VIM movement to Agenda
+;(define-key org-agenda-mode-map "J" 'evil-next-line)
+;(define-key org-agenda-mode-map "K" 'evil-previous-line)
+
 ;; Prettify Org Bullets
 (add-hook 'org-mode-hook
 	            (lambda ()
         (org-superstar-mode 1)))
 
 
- (map!
- (:after org
-   (:map org-mode-map "C-c o" #'org-pomodoro))
- (:after org-agenda
-   (:map org-agenda-mode-map "C-c o" #'org-pomodoro)))
+ ;(map!
+ ;(:after org
+   ;(:map org-mode-map "C-c o" #'org-pomodoro))
+ ;(:after org-agenda
+   ;(:map org-agenda-mode-map "C-c o" #'org-pomodoro)))
 
 
 
@@ -255,29 +260,39 @@
       :desc "Demote Org Heading"
       "j" #'org-do-demote))
 
+ (setq-default sysTypeSpecific  system-type) ;; get the system-type value
+
+ (cond
+  ;; If type is "gnu/linux", override to "wsl/linux" if it's WSL.
+  ((eq sysTypeSpecific 'gnu/linux)
+   (when (string-match "Linux.*Microsoft.*Linux"
+                       (shell-command-to-string "uname -a"))
+
+     (setq-default sysTypeSpecific "wsl/linux") ;; for later use.
+     (setq
+      cmdExeBin"/mnt/c/Windows/System32/cmd.exe"
+      cmdExeArgs '("/c" "start" "") )
+     (setq
+      browse-url-generic-program  cmdExeBin
+      browse-url-generic-args     cmdExeArgs
+      browse-url-browser-function 'browse-url-generic)
+     )))
  ;; Determine the specific system type. 
  ;; Emacs variable system-type doesn't yet have a "wsl/linux" value,
  ;; so I'm front-ending system-type with my variable: sysTypeSpecific.
  ;; I'm no elisp hacker, so I'm diverging from the elisp naming convention
  ;; to ensure that I'm not stepping on any pre-existing variable.
- (setq-default sysTypeSpecific  system-type) ;; get the system-type value
- 
- (cond 
-     ;; If type is "gnu/linux", override to "wsl/linux" if it's WSL.
-       ((eq sysTypeSpecific 'gnu/linux)  
-	   (when (string-match "Linux.*Microsoft.*Linux" 
-			                              (shell-command-to-string "uname -a"))
-	      
-	          (setq-default sysTypeSpecific "wsl/linux") ;; for later use.
-		       (setq
-			       cmdExeBin"/mnt/c/Windows/System32/cmd.exe"
-			             cmdExeArgs '("/c" "start" "") )
-		            (setq
-			            browse-url-generic-program  cmdExeBin
-				          browse-url-generic-args     cmdExeArgs
-					        browse-url-browser-function 'browse-url-generic)
-			         )))
+; (setq-default sysTypeSpecific  system-type) ;; get the system-type value
 
+;; Launch browser in Windows
+;(when (getenv "WSLENV")
+;  (let ((cmd-exe "/mnt/c/Windows/System32/cmd.exe")
+;	(cmd-args '("/c" "start")))
+;    (when (file-exists-p cmd-exe)
+;      (setq browse-url-generic-program  cmd-exe
+;	    browse-url-generic-args     cmd-args
+;	    browse-url-browser-function 'browse-url-generic
+;	    search-web-default-browser 'browse-url-generic))))
 
 
 ;; Here are some additional functions/macros that could help you configure Doom:
