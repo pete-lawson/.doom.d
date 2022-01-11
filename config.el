@@ -91,7 +91,7 @@
         ("p" "Project" entry (file "~/jhu-org/projects.org")
         "* TODO %^{Project Name} [/] %^g \n:PROPERTIES:\n:Description: %^{Brief Description}\n:Created: %U\n:ARCHIVE: %s_archive::* %\\1\n:COOKIE_DATA: todo recursive\n:END:\n%?")
         ("m" "Meeting" entry (file "~/jhu-org/meetings.org")
-        "* %^{Meeting Title} %^T\n:PROPERTIES:\n:Description: %^{Brief Description of Meeting}\n:Attendees: %^{List Meeting Attendees}\n** Meeting Notes\n%?")
+        "* %^{Meeting Title} %^T\n:PROPERTIES:\n:Description: %^{Brief Description of Meeting}\n** Background\n%x\n** Meeting Notes\n%?")
         ("n" "Note" entry (file "~/Documents/jhu-org/inbox.org")
         "* NOTE %?\n%U" :empty-lines 1)
         ("N" "Note with Clipboard" entry (file "~/jhu-org/todo.org")
@@ -217,14 +217,13 @@
 	            (lambda ()
         (org-superstar-mode 1)))
 
+;; Add Org-Pomodoro bindings
 
- ;(map!
- ;(:after org
-   ;(:map org-mode-map "C-c o" #'org-pomodoro))
- ;(:after org-agenda
-   ;(:map org-agenda-mode-map "C-c o" #'org-pomodoro)))
-
-
+ (map!
+ (:after org
+  (:map org-mode-map "C-c o" #'org-pomodoro))
+ (:after org-agenda
+   (:map org-agenda-mode-map "C-c o" #'org-pomodoro)))
 
 ;; Add Treemacs binding to toggle Treemacs
 (map! :leader
@@ -236,17 +235,11 @@
       :desc "Sort Org Entries"
       "m j" #'org-sort-entries)
 
-;; Demote org heading
-(map! :leader
-      (:prefix ("v" . "org-mode")
-      :desc "Demote Org Subtree"
-      "d" #'org-demote-subtree))
-
-;; Promote org heading
-(map! :leader
-      (:prefix ("v" . "org-mode")
-      :desc "Promote Org Subtree"
-      "p" #'org-promote-subtree))
+ ;;(map!
+ ;;(:after org
+ ;; (:map org-mode-map "C-c d" #'org-demote-subtree)
+ ;; (:map org-mode-map "C-c p" #'org-promote-subtree)
+ ;; ))
 
 ;; Promote org heading
 (map! :leader
@@ -259,6 +252,7 @@
       (:prefix ("v" . "org-mode")
       :desc "Demote Org Heading"
       "j" #'org-do-demote))
+
 
  (setq-default sysTypeSpecific  system-type) ;; get the system-type value
 
