@@ -28,14 +28,19 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/jhu-org/")
+
+
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
 ;; Load and Configure Super Agenda
 (after! org
+
 (use-package org-super-agenda
   :config (org-super-agenda-mode))
+
+;;(setq org-agenda-files (directory-files-recursively "~/jhu-org/" "\\.org$"))
 
 ;; Record a CLOSED tag and date/time when moving to completed state (done or cancelled)
 (setq org-log-done t)
@@ -91,6 +96,8 @@
         ("p" "Project" entry (file "~/jhu-org/projects.org")
         "* TODO %^{Project Name} [/] %^g \n:PROPERTIES:\n:Description: %^{Brief Description}\n:Created: %U\n:ARCHIVE: %s_archive::* %\\1\n:COOKIE_DATA: todo recursive\n:END:\n%?")
         ("m" "Meeting" entry (file "~/jhu-org/meetings.org")
+        "* %^{Meeting Title} %^T\n:PROPERTIES:\n:Description: %^{Brief Description of Meeting}\n** Background\n** Meeting Notes\n%?")
+        ("M" "Meeting with Clipboard" entry (file "~/jhu-org/meetings.org")
         "* %^{Meeting Title} %^T\n:PROPERTIES:\n:Description: %^{Brief Description of Meeting}\n** Background\n%x\n** Meeting Notes\n%?")
         ("n" "Note" entry (file "~/Documents/jhu-org/inbox.org")
         "* NOTE %?\n%U" :empty-lines 1)
@@ -241,6 +248,16 @@
  ;; (:map org-mode-map "C-c p" #'org-promote-subtree)
  ;; ))
 
+;; Org-Journal config
+(setq  org-journal-enable-agenda-integration t
+       org-journal-file-type 'weekly
+       ;; org-journal-date-format "%A, %Y-%m-%d"
+       ;; org-journal-file-format "%Y-%m-%d.org"
+       ;; org-journal-date-prefix "#+TITLE: "
+       )
+
+;; Org journal directory
+;;
 ;; Promote org heading
 (map! :leader
       (:prefix ("v" . "org-mode")
@@ -271,11 +288,9 @@
       browse-url-generic-args     cmdExeArgs
       browse-url-browser-function 'browse-url-generic)
      )))
+
  ;; Determine the specific system type. 
  ;; Emacs variable system-type doesn't yet have a "wsl/linux" value,
- ;; so I'm front-ending system-type with my variable: sysTypeSpecific.
- ;; I'm no elisp hacker, so I'm diverging from the elisp naming convention
- ;; to ensure that I'm not stepping on any pre-existing variable.
 ; (setq-default sysTypeSpecific  system-type) ;; get the system-type value
 
 ;; Launch browser in Windows
