@@ -137,6 +137,8 @@
                       (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("DONE" "INACTIVE" "ACTIVE" "CANCELED" "RESOURCE")))
                      ; (org-agenda-entry-types '(:date :deadline :scheduled))
                       ))
+         (
+          (agenda "" (org-super-agenda-groups '((:auto-parent t)))
           (alltodo "" ((org-agenda-overriding-header "")
                       (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("DONE" "INACTIVE" "ACTIVE" "CANCELED" "RESOURCE")))
                        (org-super-agenda-groups
@@ -153,6 +155,9 @@
                                  :deadline today
                                  :todo "today"
                                  :order 3)
+                          (:name "Project"
+                                 :tag "project"
+                                 :order 4)
                           (:name "Overdue"
                                  :deadline past
                                  :order 7)
