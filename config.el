@@ -131,14 +131,22 @@
                 (org-agenda-archives-mode t)
                 (org-agenda-skip-function '(org-agenda-skip-entry-if 'nottodo '("DONE" "INACTIVE")))
                 ))
+        ("p" "Projects"
+         ((todo "TODO" (
+                       (org-agenda-files '("~/jhu-org/projects.org"))
+                       (org-super-agenda-groups
+                        '((:auto-parent t
+                          )))))
+          )
+         )
+          ;; '((:auto-category t))))
+
         ("d" "My Agenda"
          (
           (agenda "" ((org-agenda-span 10)
                       (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("DONE" "INACTIVE" "ACTIVE" "CANCELED" "RESOURCE")))
                      ; (org-agenda-entry-types '(:date :deadline :scheduled))
                       ))
-         (
-          (agenda "" (org-super-agenda-groups '((:auto-parent t)))
           (alltodo "" ((org-agenda-overriding-header "")
                       (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("DONE" "INACTIVE" "ACTIVE" "CANCELED" "RESOURCE")))
                        (org-super-agenda-groups
@@ -155,9 +163,6 @@
                                  :deadline today
                                  :todo "today"
                                  :order 3)
-                          (:name "Project"
-                                 :tag "project"
-                                 :order 4)
                           (:name "Overdue"
                                  :deadline past
                                  :order 7)
