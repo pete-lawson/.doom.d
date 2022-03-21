@@ -40,6 +40,8 @@
 (use-package org-super-agenda
   :config (org-super-agenda-mode))
 
+;; Set default page to Bookmarks
+(setq initial-buffer-choice "~/jhu-org/bookmarks.org")
 ;;(setq org-agenda-files (directory-files-recursively "~/jhu-org/" "\\.org$"))
 
 ;; Record a CLOSED tag and date/time when moving to completed state (done or cancelled)
@@ -132,7 +134,7 @@
                 (org-agenda-skip-function '(org-agenda-skip-entry-if 'nottodo '("DONE" "INACTIVE")))
                 ))
         ("p" "Projects"
-         ((todo "TODO" (
+         ((todo "TODO|WAIT" (
                        (org-agenda-files '("~/jhu-org/projects.org"))
                        (org-super-agenda-groups
                         '((:auto-parent t
