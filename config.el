@@ -17,8 +17,7 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
-;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
+(set-face-attribute 'default nil :height 140)
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -54,7 +53,7 @@
 (setq org-todo-keywords
       '((sequence "TODO(t)" "WAIT(w@/!)" "BLOCK(b@/!)" "|" "DONE(d@!)" "CANCELED(c@)")
         (sequence "RESOURCE(r)" "|")
-        (sequence "ACTIVE(a)" "|" "INACTIVE(i)")
+        (sequence "ACTIVE(a)" "|" "INACTIVE(i)" "COMPLETED(c)")
         ))
 ;; Set tags
 (setq org-tag-alist
@@ -96,7 +95,7 @@
         :created t        ; properties
         )
         ("p" "Project" entry (file "~/jhu-org/projects.org")
-        "* TODO %^{Project Name} [/] %^g \n:PROPERTIES:\n:Description: %^{Brief Description}\n:Created: %U\n:ARCHIVE: %s_archive::* %\\1\n:COOKIE_DATA: todo recursive\n:END:\n%?")
+        "* ACTIVE %^{Project Name} [/] %^g \n:PROPERTIES:\n:Description: %^{Brief Description}\n:Created: %U\n:ARCHIVE: %s_archive::* %\\1\n:COOKIE_DATA: todo recursive\n:END:\n%?")
         ("m" "Meeting" entry (file "~/jhu-org/meetings.org")
         "* %^{Meeting Title} %^T\n:PROPERTIES:\n:Description: %^{Brief Description of Meeting}\n** Background\n** Meeting Notes\n%?")
         ("M" "Meeting with Clipboard" entry (file "~/jhu-org/meetings.org")
