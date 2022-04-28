@@ -17,7 +17,7 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(set-face-attribute 'default nil :height 140)
+(set-face-attribute 'default nil :height 130)
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -39,6 +39,9 @@
 (use-package org-super-agenda
   :config (org-super-agenda-mode))
 
+
+;; Set org-roam directory
+(setq org-roam-directory "~/jhu-org/roam")
 ;; Set default page to Bookmarks
 (setq initial-buffer-choice "~/jhu-org/bookmarks.org")
 ;;(setq org-agenda-files (directory-files-recursively "~/jhu-org/" "\\.org$"))
@@ -58,9 +61,9 @@
 ;; Set tags
 (setq org-tag-alist
       '(
+        ("file" . ?f)
         ("next" . ?n)
         ("queue" . ?p)
-        ("forgot" . ?f)
         ("admin" . ?a)
         ("meeting" . ?m)
         ("datavis" . ?v)
@@ -142,12 +145,38 @@
          )
           ;; '((:auto-category t))))
 
-        ("d" "My Agenda"
+        ("d" "Daily Tasks"
          (
-          (agenda "" ((org-agenda-span 10)
+          (agenda "" ((org-agenda-span 5)
                       (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("DONE" "INACTIVE" "ACTIVE" "CANCELED" "RESOURCE")))
                      ; (org-agenda-entry-types '(:date :deadline :scheduled))
                       ))
+          (alltodo "" ((org-agenda-overriding-header "")
+                      (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("DONE" "INACTIVE" "ACTIVE" "CANCELED" "RESOURCE")))
+                       (org-super-agenda-groups
+                        '(
+                          (:discard (:todo "RESOURCE"))
+                          (:name "To File in LibAnswers"
+                                 :tag "file"
+                                 :order 1)
+                          (:name "Today's TODOs"
+                                 :tag "next"
+                                 :order 2)
+                          (:name "Due Today"
+                                 :scheduled today
+                                 :deadline today
+                                 :todo "today"
+                                 :order 4)
+                          (:name "Overdue"
+                                 :deadline past
+                                 :order 7)
+                          (:name "Important"
+                                 :priority "A"
+                                 :order 5)
+                          (:discard (:anything))))))))
+
+        ("o" "Agenda Overview"
+         (
           (alltodo "" ((org-agenda-overriding-header "")
                       (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("DONE" "INACTIVE" "ACTIVE" "CANCELED" "RESOURCE")))
                        (org-super-agenda-groups
@@ -223,7 +252,9 @@
                                  :tag ("Trivial" "Unimportant")
                                  :todo ("SOMEDAY" )
                                  :order 110)
-                          (:discard (:tag ("Chore" "Routine" "Daily")))))))))))
+                          (:discard (:tag ("Chore" "Routine" "Daily")))))))))
+
+        ))
 )
 
 ;; Add VIM movement to Agenda
