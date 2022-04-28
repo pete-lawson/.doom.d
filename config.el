@@ -63,7 +63,7 @@
       '(
         ("file" . ?f)
         ("next" . ?n)
-        ("queue" . ?p)
+        ("queue" . ?q)
         ("admin" . ?a)
         ("meeting" . ?m)
         ("datavis" . ?v)
@@ -158,10 +158,10 @@
                           (:discard (:todo "RESOURCE"))
                           (:name "To File in LibAnswers"
                                  :tag "file"
-                                 :order 1)
+                                 :order 2)
                           (:name "Today's TODOs"
                                  :tag "next"
-                                 :order 2)
+                                 :order 1)
                           (:name "Due Today"
                                  :scheduled today
                                  :deadline today
@@ -173,6 +173,9 @@
                           (:name "Important"
                                  :priority "A"
                                  :order 5)
+                          (:name "Queue (What to work on next)"
+                                 :tag "queue"
+                                 :order 10)
                           (:discard (:anything))))))))
 
         ("o" "Agenda Overview"
