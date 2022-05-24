@@ -56,7 +56,15 @@
 (setq org-todo-keywords
       '((sequence "TODO(t)" "WAIT(w@/!)" "BLOCK(b@/!)" "|" "DONE(d@!)" "CANCELED(c@)")
         (sequence "RESOURCE(r)" "|")
+        (sequence "MEETING(m)" "SEMINAR(s)" "CONSULT(z)" "|")
         (sequence "ACTIVE(a)" "|" "INACTIVE(i)" "COMPLETED(c)")
+        ))
+;; Set org todo colors
+(setq org-todo-keyword-faces
+      '(("MEETING" . (:foreground "aquamarine1" :weight bold))
+        ("SEMINAR" . (:foreground "purple2" :weight bold))
+        ("CONSULT" . (:foreground "DeepSkyBlue" :weight bold))
+        ("WAIT" . (:foreground "orange" :weight bold))
         ))
 ;; Set tags
 (setq org-tag-alist
@@ -100,9 +108,13 @@
         ("p" "Project" entry (file "~/jhu-org/projects.org")
         "* ACTIVE %^{Project Name} [/] %^g \n:PROPERTIES:\n:Description: %^{Brief Description}\n:Created: %U\n:ARCHIVE: %s_archive::* %\\1\n:COOKIE_DATA: todo recursive\n:END:\n%?")
         ("m" "Meeting" entry (file "~/jhu-org/meetings.org")
-        "* %^{Meeting Title} %^T\n:PROPERTIES:\n:Description: %^{Brief Description of Meeting}\n** Background\n** Meeting Notes\n%?")
+        "* MEETING %^{Meeting Title} %^T\n:PROPERTIES:\n:Description: %^{Brief Description of Meeting}\n** Background\n** Meeting Notes\n%?")
         ("M" "Meeting with Clipboard" entry (file "~/jhu-org/meetings.org")
-        "* %^{Meeting Title} %^T\n:PROPERTIES:\n:Description: %^{Brief Description of Meeting}\n** Background\n%x\n** Meeting Notes\n%?")
+        "* MEETING %^{Meeting Title} %^T\n:PROPERTIES:\n:Description: %^{Brief Description of Meeting}\n** Background\n%x\n** Meeting Notes\n%?")
+        ("s" "Seminar" entry (file "~/jhu-org/meetings.org")
+        "* SEMINAR %^{Seminar Title} %^T\n:PROPERTIES:\n:Description: %^{Brief Description of Seminar}\n** Background\n** Seminar Notes\n%?")
+        ("S" "Seminar with Clipboard" entry (file "~/jhu-org/meetings.org")
+        "* SEMINAR %^{Seminar Title} %^T\n:PROPERTIES:\n:Description: %^{Brief Description of Seminar}\n** Background\n%x\n** Seminar Notes\n%?")
         ("n" "Note" entry (file "~/Documents/jhu-org/inbox.org")
         "* NOTE %?\n%U" :empty-lines 1)
         ("N" "Note with Clipboard" entry (file "~/jhu-org/todo.org")
@@ -148,7 +160,9 @@
         ("d" "Daily Tasks"
          (
           (agenda "" ((org-agenda-span 5)
-                      (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("DONE" "INACTIVE" "ACTIVE" "CANCELED" "RESOURCE")))
+                      (org-agenda-start-on-weekday 1)
+                      (org-agenda-start-day "1d")
+                      (org-agenda-skip-function '(org-agenda-skip-entry-if 'nottodo '("TODO" "MEETING" "SEMINAR" "CONSULT")))
                      ; (org-agenda-entry-types '(:date :deadline :scheduled))
                       ))
           (alltodo "" ((org-agenda-overriding-header "")
